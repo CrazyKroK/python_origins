@@ -12,16 +12,30 @@ from itertools import count
 stop = int(input('Введите число, факториал от которого нужен: '))
 
 
+# def fact(a):
+#     list_a = [a]
+#     for el in list_a:
+#         ind = list_a.index(el)
+#         el = el - 1
+#         if el > 0:
+#             list_a.insert(ind + 1, el)
+#         if el == 0:
+#             break
+#     result = reduce(lambda b, c: b * c, list_a)
+#     return result
+
+
 def fact(a):
     list_a = [a]
+    result = 1
     for el in list_a:
         ind = list_a.index(el)
+        result = result * el
         el = el - 1
         if el > 0:
             list_a.insert(ind + 1, el)
         if el == 0:
             break
-    result = reduce(lambda b, c: b * c, list_a)
     return result
 
 
