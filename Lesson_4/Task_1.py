@@ -9,3 +9,5 @@ my_wage_rate = float(argv[1])
 my_hours = float(argv[2])
 my_bonus = float(argv[3])
 print('Ваша заработная плата составит:', salary_calc(my_wage_rate, my_hours, my_bonus))
+
+# python Lesson_4\Task_1.py my_wage_rate my_hours my_bonus
