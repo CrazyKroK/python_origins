@@ -68,10 +68,10 @@ a, b - опции для второго символа
 
 # JSON используется для сохранения значений переменных
 
-import json
-data = {'income': {'salary': 50000, 'bonus': 10000}}
-with open('test2.json', 'w') as f:
-    json.dump(data, f)
+# import json
+# data = {'income': {'salary': 50000, 'bonus': 10000}}
+# with open('test2.json', 'w') as f:
+#     json.dump(data, f)
 
 # with open('test2.json') as f:
 #     data = json.load(f)
