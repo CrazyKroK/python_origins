@@ -11,5 +11,6 @@ while True:
     if my_str == '':
         break
 
+print(my_list)
 file.writelines(my_list)
 file.close()

@@ -1,0 +1,4 @@
+Gostev 10000
+Manzhetov 20000
+Pushkin 30000
+Iakushkin 40000
