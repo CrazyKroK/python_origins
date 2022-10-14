@@ -21,10 +21,8 @@ while True:
     if step > 19:
         break
 
-print(numbers)
 file_input = open('Task_5.txt', 'w')
 str_numbers = multiple_replace(str(numbers), dict_replacer)
-print(str_numbers)
 file_input.write(str_numbers)
 file_input.close()
 
@@ -33,9 +31,6 @@ content = file_output.readlines()
 str_content = multiple_replace(str(content), dict_replacer)
 list_content = str_content.split()
 file_output.close()
-
-print(str_content)
-print(list_content)
 
 total_sum = 0
 for b in list_content:
