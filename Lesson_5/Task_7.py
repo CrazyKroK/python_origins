@@ -12,3 +12,38 @@
 [{"firm_1": 5000, "firm_2": 3000, "firm_3": 1000}, {"average_profit": 2000}]
 Подсказка: использовать менеджеры контекста.
 '''
+
+
+import json
+
+file_output = open('Task_7.txt', 'r')
+content = file_output.readlines()
+file_output.close()
+
+print(content)
+
+list_content = []
+for a in content:
+    a = a.split()
+    list_content.append(a)
+
+print(list_content)
+
+dict_profit = {}
+av_profit = 0
+av_profit_count = 0
+for a in list_content:
+    dict_profit[a[0]] = int(a[2]) - int(a[3])
+    if int(a[2]) - int(a[3]) > 0:
+        av_profit = av_profit + int(a[2]) - int(a[3])
+        av_profit_count = av_profit_count + 1
+
+dict_av_profit = {'average_profit': av_profit / av_profit_count}
+
+list_fin = [dict_profit, dict_av_profit]
+print(list_fin)
+
+with open('Task_7.json', 'w') as f:
+    json.dump(list_fin, f)
+
+
