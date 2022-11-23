@@ -1,7 +1,7 @@
 class Phone:
     def __init__(self, model_phone, id_phone):
         self.model = model_phone
-        self._id = id_phone  # Инкапсулирует функцию id protected (см. ниже)
+        self._id = id_phone  # Инкапсулирует метод id protected (см. ниже)
         self._loading()  # Запускает метод _loading автоматически при создании представителя класса
         self.__bla = "qwe"  # Второй метод инкапсуляции (privat).
 
