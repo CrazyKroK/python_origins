@@ -13,8 +13,8 @@ class Road:
 
     def req_asphalt(self):
         result = self._width_road * self._length_road * 25 * 5
-        return result
+        print(result)
 
 
 my_road = Road(10, 20)
-print(my_road.req_asphalt())
+my_road.req_asphalt()
