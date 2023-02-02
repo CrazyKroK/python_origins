@@ -15,7 +15,7 @@ class TrafficLight:
 
     def running(self):
         cycle_count = 0
-        cycle_amount = int(input('Введите количество циклов рабоыт светофора: '))
+        cycle_amount = int(input('Введите количество циклов работы светофора: '))
         while cycle_count < cycle_amount:
             self._colour = 'red'
             print(self._colour)

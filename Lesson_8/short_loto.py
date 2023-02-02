@@ -95,17 +95,10 @@ class LotoCard:
     def __init__(self, name):
         self.name = name
         """Создается список чисел. Они отсортированы в рамках каждой пятерки. Проверена уникальность каждой пятерки."""
-        numbers = []
-        while len(numbers) < 15:
-            new_numbers = sorted(random.sample(range(1, 91), 5))
-            if set(new_numbers) - set(numbers) == set(new_numbers):
-                for elem in new_numbers:
-                    numbers.append(elem)
+        numbers = sorted(random.sample(range(1, 11), 5))
 
         """Создается список позиций чисел"""
-        number_pos = sorted(random.sample(range(1, 10), 5) +
-                            random.sample(range(10, 19), 5) +
-                            random.sample(range(19, 28), 5))
+        number_pos = sorted(random.sample(range(1, 10), 5))
 
         """Создается словарь, состоящий из позиций чисел и самих чисел (основа для карточки)"""
         self.card = dict(zip(number_pos, numbers))
@@ -115,7 +108,7 @@ class LotoCard:
         """Добавляет в словарь 'пустые' значение по ключам, которые не были созданы в __init__"""
         card_str = self.card
         new_key = 1
-        while new_key < 28:
+        while new_key < 10:
             if card_str.get(new_key) is None:
                 card_str[new_key] = '  '
             new_key = new_key + 1
@@ -140,15 +133,13 @@ class LotoCard:
                         '-' * int((26 - len(self.name)) / 2) + self.name + \
                         '-' * int((26 - len(self.name)) / 2) + '\n' + \
                         str(list(dict(sorted(new_card_str.items())[0:9]).values())) + '\n' + \
-                        str(list(dict(sorted(new_card_str.items())[9:18]).values())) + '\n' + \
-                        str(list(dict(sorted(new_card_str.items())[18:]).values())) + '\n' + \
                         '-' * 26
 
         return multiple_replace(read_card_str, dict_replacer)
 
     def game(self, other):
 
-        kegs = random.sample(range(1, 91), 90)
+        kegs = random.sample(range(1, 11), 10)
         for keg in kegs:
             if keg == kegs[0]:
                 print('Номер вашего бочонка:', keg)
@@ -163,25 +154,25 @@ class LotoCard:
                 if keg in self.card.values():
                     if answer == 'Y' or answer == 'y':
                         self.card.update({get_key(self.card, keg): '--'})
-                        if set(self.card.values()) - set(range(1, 91)) == set(self.card.values()):
+                        if set(self.card.values()) - set(range(1, 11)) == set(self.card.values()):
                             print('ВЫ ПОБЕДИЛИ! ВЫ ВЫЧЕРНУЛИ ВСЕ ЧИСЛА НА СВОЕЙ КАРТОЧКЕ!')
                             break
                         else:
-                            print('\n' * 10, 'Верно! Вычеркиваем! Осталось ', 89 - kegs.index(keg),
+                            print('\n' * 10, 'Верно! Вычеркиваем! Осталось ', 9 - kegs.index(keg),
                                   keg_ending(89 - kegs.index(keg)), sep='')
                     else:
                         print('Неверно! Вы проиграли!')
                         break
                 else:
                     if answer == 'N' or answer == 'n':
-                        print('\n' * 10, 'Верно! Осталось ', 89 - kegs.index(keg), keg_ending(89 - kegs.index(keg)),
+                        print('\n' * 10, 'Верно! Осталось ', 9 - kegs.index(keg), keg_ending(89 - kegs.index(keg)),
                               sep='')
                     else:
                         print('Неверно! Вы проиграли!')
                         break
             if keg in other.card.values():
                 other.card.update({get_key(other.card, keg): '--'})
-            if set(other.card.values()) - set(range(1, 91)) == set(other.card.values()):
+            if set(other.card.values()) - set(range(1, 11)) == set(other.card.values()):
                 print('Но, к сожалению, вы проиграли! Компьютер вычеркнул вс числа раньше вас!')
                 break
 
