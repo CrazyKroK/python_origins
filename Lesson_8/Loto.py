@@ -182,7 +182,7 @@ class LotoCard:
             if keg in other.card.values():
                 other.card.update({get_key(other.card, keg): '--'})
             if set(other.card.values()) - set(range(1, 91)) == set(other.card.values()):
-                print('Но, к сожалению, вы проиграли! Компьютер вычеркнул вс числа раньше вас!')
+                print('Но, к сожалению, вы проиграли! Компьютер вычеркнул все числа раньше вас!')
                 break
 
 
