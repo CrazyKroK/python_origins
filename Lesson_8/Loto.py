@@ -113,7 +113,7 @@ class LotoCard:
     def __str__(self):
 
         """Добавляет в словарь 'пустые' значение по ключам, которые не были созданы в __init__"""
-        card_str = self.card
+        card_str = self.card.copy()
         new_key = 1
         while new_key < 28:
             if card_str.get(new_key) is None:
