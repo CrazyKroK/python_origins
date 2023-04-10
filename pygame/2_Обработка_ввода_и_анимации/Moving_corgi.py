@@ -29,5 +29,3 @@ while True:
             elif event.key == pygame.K_DOWN:
                 sprite_loc[1] = sprite_loc[1] + 20
 
-            screen.blit(sprite, sprite_loc)
-            pygame.display.flip()
