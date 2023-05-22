@@ -12,6 +12,33 @@ HEIGHT = 450
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 
 
+class Game:
+
+    def __init__(self):
+
+        self.cell_pos_dict = {1: None,  # Хранит информацию о том, какие клетки находятся в ячейках
+                              2: None,
+                              3: None,
+                              4: None,
+                              5: None,
+                              6: None,
+                              7: None,
+                              8: None,
+                              9: None,
+                              10: None,
+                              11: None,
+                              12: None,
+                              13: None,
+                              14: None,
+                              15: None,
+                              16: None}
+
+    @staticmethod
+    def cell_pos_calc(coord_x, coord_y):  # считает ключ для coord_dict из координат
+        result = (coord_x - 10) / 110 + 4 * (coord_y - 10) / 110 + 1
+        return result
+
+
 class ScreenStruck:
 
     def __init__(self):
@@ -19,23 +46,6 @@ class ScreenStruck:
         self.line_width = 10
         self.line_pos = 0
         self.line_color = THECOLORS['azure3']
-
-        self.cell_pos = {1: None,  # Хранит информацию о том, какие клетки находятся в ячейках
-                         2: None,
-                         3: None,
-                         4: None,
-                         5: None,
-                         6: None,
-                         7: None,
-                         8: None,
-                         9: None,
-                         10: None,
-                         11: None,
-                         12: None,
-                         13: None,
-                         14: None,
-                         15: None,
-                         16: None}
 
     def draw(self):
         while True:
@@ -55,6 +65,7 @@ class Cell:
     def __init__(self, name):
 
         self.name = name
+
         self.coord_dict = {1: [10, 10],
                            2: [120, 10],
                            3: [230, 10],
@@ -87,7 +98,7 @@ class Cell:
         new_cell_check = False
         while new_cell_check is False:
             self.cell_pos_key_try = random.randint(1, 16)
-            if screen_struct.cell_pos[self.cell_pos_key_try] is None:
+            if game.cell_pos_dict[self.cell_pos_key_try] is None:
                 self.cell_pos_key = self.cell_pos_key_try
                 new_cell_check = True
 
@@ -96,7 +107,6 @@ class Cell:
         self.pos_move = None
 
     def draw(self):
-
         self.text_pos = (self.cell_pos[0] + 18, self.cell_pos[1])
 
         self.cell_form = pygame.Rect(self.cell_pos, (self.cell_width, self.cell_width))
@@ -105,83 +115,79 @@ class Cell:
         self.text_number = self.font.render(str(self.number), True, self.font_color)
         screen.blit(self.text_number, self.text_pos)
 
-        self.cell_pos_key = cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
-        screen_struct.cell_pos[cell.cell_pos_key] = self.name  # Записывает имя клетки в coord_dict
+        self.cell_pos_key = game.cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
+        game.cell_pos_dict[cell.cell_pos_key] = self.name  # Записывает имя клетки в cell_pos
 
     def move_left(self):
-        screen_struct.cell_pos[self.cell_pos_key] = None  # Обнуляет имя клетки в coord_dict
+        game.cell_pos_dict[self.cell_pos_key] = None  # Обнуляет имя клетки в cell_pos
 
         pygame.draw.rect(screen, self.color_background, self.cell_form, 0)
         self.pos_move = 4 * (self.cell_pos[1] - 10) / 110 + 1  # считает ключ для крайней левой позиции в coord_dict
-        if screen_struct.cell_pos[self.pos_move] is None or screen_struct.cell_pos[self.pos_move] == self.name:
+        if game.cell_pos_dict[self.pos_move] is None or game.cell_pos_dict[self.pos_move] == self.name:
             self.cell_pos[0] = 10
-        elif screen_struct.cell_pos[self.pos_move + 1] is None or screen_struct.cell_pos[self.pos_move + 1] == self.name:
+        elif game.cell_pos_dict[self.pos_move + 1] is None or game.cell_pos_dict[self.pos_move + 1] == self.name:
             self.cell_pos[0] = 120
-        elif screen_struct.cell_pos[self.pos_move + 2] is None or screen_struct.cell_pos[self.pos_move + 2] == self.name:
+        elif game.cell_pos_dict[self.pos_move + 2] is None or game.cell_pos_dict[self.pos_move + 2] == self.name:
             self.cell_pos[0] = 230
 
-        self.cell_pos_key = cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
-        screen_struct.cell_pos[self.cell_pos_key] = self.name  # Записывает имя клетки в coord_dict
+        self.cell_pos_key = game.cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
+        game.cell_pos_dict[self.cell_pos_key] = self.name  # Записывает имя клетки в cell_pos
         self.cell_form = pygame.Rect(self.cell_pos, (self.cell_width, self.cell_width))
         pygame.draw.rect(screen, self.color_cell, self.cell_form, 0)
 
     def move_right(self):
-        screen_struct.cell_pos[self.cell_pos_key] = None  # Обнуляет имя клетки в coord_dict
+        game.cell_pos_dict[self.cell_pos_key] = None  # Обнуляет имя клетки в cell_pos
 
         pygame.draw.rect(screen, self.color_background, self.cell_form, 0)
         self.pos_move = 4 * (self.cell_pos[1] - 10) / 110 + 4  # считает ключ для крайней правой позиции в coord_dict
-        if screen_struct.cell_pos[self.pos_move] is None or screen_struct.cell_pos[self.pos_move] == self.name:
+        if game.cell_pos_dict[self.pos_move] is None or game.cell_pos_dict[self.pos_move] == self.name:
             self.cell_pos[0] = 340
-        elif screen_struct.cell_pos[self.pos_move - 1] is None or screen_struct.cell_pos[self.pos_move - 1] == self.name:
+        elif game.cell_pos_dict[self.pos_move - 1] is None or game.cell_pos_dict[self.pos_move - 1] == self.name:
             self.cell_pos[0] = 230
-        elif screen_struct.cell_pos[self.pos_move - 2] is None or screen_struct.cell_pos[self.pos_move - 2] == self.name:
+        elif game.cell_pos_dict[self.pos_move - 2] is None or game.cell_pos_dict[self.pos_move - 2] == self.name:
             self.cell_pos[0] = 120
 
-        self.cell_pos_key = cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
-        screen_struct.cell_pos[self.cell_pos_key] = self.name  # Записывает имя клетки в coord_dict
+        self.cell_pos_key = game.cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
+        game.cell_pos_dict[self.cell_pos_key] = self.name  # Записывает имя клетки в cell_pos
         self.cell_form = pygame.Rect(self.cell_pos, (self.cell_width, self.cell_width))
         pygame.draw.rect(screen, self.color_cell, self.cell_form, 0)
 
     def move_up(self):
-        screen_struct.cell_pos[self.cell_pos_key] = None  # Обнуляет имя клетки в coord_dict
+        game.cell_pos_dict[self.cell_pos_key] = None  # Обнуляет имя клетки в cell_pos
 
         pygame.draw.rect(screen, self.color_background, self.cell_form, 0)
         self.pos_move = (self.cell_pos[0] - 10) / 110 + 1  # считает ключ для крайней верхней позиции в coord_dict
-        if screen_struct.cell_pos[self.pos_move] is None or screen_struct.cell_pos[self.pos_move] == self.name:
+        if game.cell_pos_dict[self.pos_move] is None or game.cell_pos_dict[self.pos_move] == self.name:
             self.cell_pos[1] = 10
-        elif screen_struct.cell_pos[self.pos_move + 4] is None or screen_struct.cell_pos[self.pos_move + 4] == self.name:
+        elif game.cell_pos_dict[self.pos_move + 4] is None or game.cell_pos_dict[self.pos_move + 4] == self.name:
             self.cell_pos[1] = 120
-        elif screen_struct.cell_pos[self.pos_move + 8] is None or screen_struct.cell_pos[self.pos_move + 8] == self.name:
+        elif game.cell_pos_dict[self.pos_move + 8] is None or game.cell_pos_dict[self.pos_move + 8] == self.name:
             self.cell_pos[1] = 230
 
-        self.cell_pos_key = cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
-        screen_struct.cell_pos[self.cell_pos_key] = self.name  # Записывает имя клетки в coord_dict
+        self.cell_pos_key = game.cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
+        game.cell_pos_dict[self.cell_pos_key] = self.name  # Записывает имя клетки в cell_pos
         self.cell_form = pygame.Rect(self.cell_pos, (self.cell_width, self.cell_width))
         pygame.draw.rect(screen, self.color_cell, self.cell_form, 0)
 
     def move_down(self):
-        screen_struct.cell_pos[self.cell_pos_key] = None  # Обнуляет имя клетки в coord_dict
+        game.cell_pos_dict[self.cell_pos_key] = None  # Обнуляет имя клетки в cell_pos
 
         pygame.draw.rect(screen, self.color_background, self.cell_form, 0)
         self.pos_move = (self.cell_pos[0] - 10) / 110 + 13  # считает ключ для крайней нижней позиции в coord_dict
-        if screen_struct.cell_pos[self.pos_move] is None or screen_struct.cell_pos[self.pos_move] == self.name:
+        if game.cell_pos_dict[self.pos_move] is None or game.cell_pos_dict[self.pos_move] == self.name:
             self.cell_pos[1] = 340
-        elif screen_struct.cell_pos[self.pos_move - 4] is None or screen_struct.cell_pos[self.pos_move - 4] == self.name:
+        elif game.cell_pos_dict[self.pos_move - 4] is None or game.cell_pos_dict[self.pos_move - 4] == self.name:
             self.cell_pos[1] = 230
-        elif screen_struct.cell_pos[self.pos_move - 8] is None or screen_struct.cell_pos[self.pos_move - 8] == self.name:
+        elif game.cell_pos_dict[self.pos_move - 8] is None or game.cell_pos_dict[self.pos_move - 8] == self.name:
             self.cell_pos[1] = 120
 
-        self.cell_pos_key = cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
-        screen_struct.cell_pos[self.cell_pos_key] = self.name  # Записывает имя клетки в coord_dict
+        self.cell_pos_key = game.cell_pos_calc(self.cell_pos[0], self.cell_pos[1])
+        game.cell_pos_dict[self.cell_pos_key] = self.name  # Записывает имя клетки в cell_pos
         self.cell_form = pygame.Rect(self.cell_pos, (self.cell_width, self.cell_width))
         pygame.draw.rect(screen, self.color_cell, self.cell_form, 0)
 
 
-def cell_pos_calc(coord_x, coord_y):  # считает ключ для coord_dict из координат
-    result = (coord_x - 10) / 110 + 4 * (coord_y - 10) / 110 + 1
-    return result
-
-
+game = Game()
 screen_struct = ScreenStruck()
 cells = []
 cell_number = 1
@@ -196,6 +202,7 @@ while True:
         cell = Cell('cell_' + str(cell_number))
         cells.append(cell)
         cell_number = cell_number + 1
+        print(game.cell_pos_dict)
 
     check_cycle = move_cycle
 
