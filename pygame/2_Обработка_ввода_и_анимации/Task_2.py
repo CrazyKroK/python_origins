@@ -28,7 +28,7 @@ while True:
             rect.move_ip(0, 10)
             pygame.time.delay(50)
         elif elem == 'stop':
-            pygame.time.delay(10000)
+            pygame.time.delay(1000)
             pygame.quit()
             sys.exit()
 
