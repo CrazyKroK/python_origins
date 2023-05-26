@@ -33,6 +33,23 @@ class Game:
                               15: None,
                               16: None}
 
+        self.coord_dict = {1: [10, 10],
+                           2: [120, 10],
+                           3: [230, 10],
+                           4: [340, 10],
+                           5: [10, 120],
+                           6: [120, 120],
+                           7: [230, 120],
+                           8: [340, 120],
+                           9: [10, 230],
+                           10: [120, 230],
+                           11: [230, 230],
+                           12: [340, 230],
+                           13: [10, 340],
+                           14: [120, 340],
+                           15: [230, 340],
+                           16: [340, 340]}
+
     @staticmethod
     def cell_pos_calc(coord_x, coord_y):  # считает ключ для coord_dict из координат
         result = (coord_x - 10) / 110 + 4 * (coord_y - 10) / 110 + 1
@@ -66,23 +83,6 @@ class Cell:
 
         self.name = name
 
-        self.coord_dict = {1: [10, 10],
-                           2: [120, 10],
-                           3: [230, 10],
-                           4: [340, 10],
-                           5: [10, 120],
-                           6: [120, 120],
-                           7: [230, 120],
-                           8: [340, 120],
-                           9: [10, 230],
-                           10: [120, 230],
-                           11: [230, 230],
-                           12: [340, 230],
-                           13: [10, 340],
-                           14: [120, 340],
-                           15: [230, 340],
-                           16: [340, 340]}
-
         self.cell_width = 100
 
         # self.color_cell = THECOLORS['bisque2']
@@ -95,6 +95,13 @@ class Cell:
         self.cell_form = None
         self.text_number = None
 
+        check = 0
+        for key, val in game.cell_pos_dict.items():
+            if val:
+                check += 1
+        if check + 1 != move_cycle:
+            print()
+
         new_cell_check = False
         while new_cell_check is False:
             self.cell_pos_key_try = random.randint(1, 16)
@@ -102,7 +109,7 @@ class Cell:
                 self.cell_pos_key = self.cell_pos_key_try
                 new_cell_check = True
 
-        self.cell_pos = self.coord_dict[self.cell_pos_key]
+        self.cell_pos = game.coord_dict[self.cell_pos_key]
         self.number = random.randrange(2, 5, 2)
         self.pos_move = None
 
@@ -199,7 +206,7 @@ while True:
     screen_struct.draw()
 
     if move_cycle > check_cycle:
-        cell = Cell('cell_' + str(cell_number))
+        cell = Cell(cell_number)
         cells.append(cell)
         cell_number = cell_number + 1
         print(game.cell_pos_dict)
